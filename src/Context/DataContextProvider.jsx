@@ -1,7 +1,6 @@
 import React, { createContext } from "react";
 import axios from "axios";
 import * as graphQl from "../GraphQl/Queries";
-import { products } from "./sample";
 import { compareTwoItems } from "../utils/utils";
 
 // Setup Context
@@ -38,7 +37,7 @@ export class DataContextProvider extends React.Component {
       }, // default currency
     ],
     categories: [],
-    activeCategory: "clothes",
+    activeCategory: "all",
     products: [],
     favorits: ["apple-imac-2021", "huarache-x-stussy-le"],
     cartItems: [],
@@ -193,6 +192,7 @@ export class DataContextProvider extends React.Component {
       this;
     return (
       <DataContext.Provider
+        children={this.props.children || null}
         value={{
           categories,
           currency,
@@ -210,9 +210,7 @@ export class DataContextProvider extends React.Component {
           substractItemCountInCart,
           modifyAttribute,
         }}
-      >
-        {this.props.children}
-      </DataContext.Provider>
+      />
     );
   }
 }

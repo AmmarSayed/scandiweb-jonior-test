@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import Navbar from "./Components/Navbar/Navbar";
 import { DataContextProvider } from "./Context/DataContextProvider";
-import ProductsCategoryPage from "./pages/ProductsCategoryPage";
-
+import { Routes, Route } from "react-router-dom";
+import ProductsLandingPage from "./pages/ProductsLandingPage";
+import ProductDescriptionPage from "./pages/ProductDescriptionPage";
+import CartPage from "./pages/CartPage";
 export class App extends Component {
   render() {
     return (
       <DataContextProvider>
-        <h1>Hello</h1>
         <Navbar />
-        <ProductsCategoryPage />
+        <Routes>
+          <Route path="/" element={<ProductsLandingPage />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="product" element={<ProductDescriptionPage />} />
+        </Routes>
       </DataContextProvider>
     );
   }

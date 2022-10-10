@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-export class CartPage extends Component {
+export class ProductDescriptionPage extends Component {
   render() {
     return (
       <section className="section">
-        <h1>CartPage</h1>
+        <h1>Product Page</h1>
       </section>
     );
   }
 }
 
-export default CartPage;
+export default ProductDescriptionPage;

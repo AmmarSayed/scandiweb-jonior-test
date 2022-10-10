@@ -31,3 +31,44 @@ export const compareTwoItems = (item1, item2) => {
   const validity = sameID && sameAttributes;
   return validity;
 };
+
+// Add to Cart function
+
+export const addToCart = async (id) => {
+  const query = graphQl.GET_PRODUCTS_BY_ID(id);
+  const {
+    data: { data },
+  } = await axios.post(graphQl.URL, {
+    query,
+  });
+
+  const selectedAttributes =
+    data.product.attributes.length > 0
+      ? data.product.attributes.map((attr) => ({ ...attr, items: attr.items[0] }))
+      : null; //set first attribute as default
+
+  const newProduct = {
+    ...data.product,
+    qty: 1,
+    selectedAttributes,
+  };
+
+  // check if similar item exists
+  const similarProducts = this.state.cartItems.filter((currentItem) => compareTwoItems(currentItem, newProduct));
+
+  // update the qty if similar item exists
+  if (similarProducts.length > 0) {
+    const existingCartId = similarProducts[0].cartItemId;
+    const newItems = this.state.cartItems.map((item) => {
+      if (item.cartItemId === existingCartId) item.qty = item.qty + 1;
+      return item;
+    });
+    this.setState({ cartItems: [...newItems] });
+    return;
+  }
+
+  // create a new  Id to add item into the cart
+  newProduct.cartItemId = new Date().getTime();
+  // put a new item in cart
+  this.setState({ cartItems: [...this.state.cartItems, newProduct] });
+};

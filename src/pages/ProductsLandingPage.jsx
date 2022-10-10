@@ -4,7 +4,7 @@ import Card from "../Components/Products/Card";
 
 import withDataContext from "../Context/DataContextProvider";
 
-export class ProductsCategoryPage extends Component {
+export class ProductsLandingPage extends Component {
   render() {
     // const { currency, favorits, cartItems } = this.context;
     // const products = this.context.products.products || [];
@@ -34,7 +34,7 @@ export class ProductsCategoryPage extends Component {
   }
 }
 
-export default withDataContext(ProductsCategoryPage);
+export default withDataContext(ProductsLandingPage);
 
-// export default ProductsCategoryPage;
-// ProductsCategoryPage.contextType = DataContext;
+// export default ProductsLandingPage;
+// ProductsLandingPage.contextType = DataContext;
