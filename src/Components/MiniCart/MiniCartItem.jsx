@@ -4,13 +4,14 @@ import { isSelected } from "../../utils/utils";
 
 export class MiniCartItem extends Component {
   render() {
-    const { cartItemId, name, prices, attributes, gallery, selectedAttributes, qty } = this.props;
+    const { cartItemId, name, brand, prices, attributes, gallery, selectedAttributes, qty } = this.props;
     const { currency, addItemCountInCart, substractItemCountInCart, modifyAttribute } = this.props.dataContext;
     const [price] = prices.filter((price) => price.currency.label === currency.label);
 
     return (
       <div className="cart-item">
         <div className="cart-item__info">
+          <h4>{brand}</h4>
           <h5>{name}</h5>
           <p>
             <b>

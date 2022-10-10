@@ -50,6 +50,7 @@ export const GET_PRODUCTS_BY_ID = (id) => {
       product(id: "${id}") {
         id
         name
+        brand
         attributes {
           name
           type

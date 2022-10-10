@@ -3,15 +3,8 @@ import cartIcon from "./icons/Circle Icon.svg";
 import heart from "./icons/heart.png";
 
 export class Card extends Component {
-  state = {
-    id: null,
-    name: false,
-    inStock: false,
-    isInCart: false,
-  };
-
   render() {
-    const { addToCart, currency, id, name, gallery, prices, inStock, isFavorite, inCart } = this.props;
+    const { addToCart, currency, id, name, brand, gallery, prices, inStock, isFavorite, inCart } = this.props;
 
     const { label = "USD" } = currency;
     const [price] = prices.filter((p) => p.currency.label === label);
@@ -35,7 +28,9 @@ export class Card extends Component {
               <img src={cartIcon} alt="cart" />
             </div>
           )}
-          <p className="cart__title">{name}</p>
+          <p className="cart__title">
+            {brand} - {name}
+          </p>
           <p className="cart__price">
             <span>{price.currency.symbol}</span> {price.amount}
           </p>

@@ -2,13 +2,14 @@ import React, { createContext } from "react";
 import axios from "axios";
 import * as graphQl from "../GraphQl/Queries";
 import { products } from "./sample";
+import { compareTwoItems } from "../utils/utils";
 
 // Setup Context
 const DataContext = createContext();
 // export const DataContextConsumer = DataContext.Consumer;
 
 const withDataContext = function (WrappedComponent) {
-  return class DataComponentContext extends React.Component {
+  return class extends React.Component {
     render() {
       return (
         <DataContext.Consumer>
@@ -56,13 +57,30 @@ export class DataContextProvider extends React.Component {
         ? data.product.attributes.map((attr) => ({ ...attr, items: attr.items[0] }))
         : null; //set first attribute as default
 
-    const product = {
+    const newProduct = {
       ...data.product,
       qty: 1,
       selectedAttributes,
-      cartItemId: new Date().getTime(),
     };
-    this.setState({ cartItems: [...this.state.cartItems, product] });
+
+    // check if similar item exists
+    const similarProducts = this.state.cartItems.filter((currentItem) => compareTwoItems(currentItem, newProduct));
+
+    // update the qty if similar item exists
+    if (similarProducts.length > 0) {
+      const existingCartId = similarProducts[0].cartItemId;
+      const newItems = this.state.cartItems.map((item) => {
+        if (item.cartItemId === existingCartId) item.qty = item.qty + 1;
+        return item;
+      });
+      this.setState({ cartItems: [...newItems] });
+      return;
+    }
+
+    // create a new  Id to add item into the cart
+    newProduct.cartItemId = new Date().getTime();
+    // put a new item in cart
+    this.setState({ cartItems: [...this.state.cartItems, newProduct] });
   };
 
   addItemCountInCart = (id) => {
@@ -75,10 +93,14 @@ export class DataContextProvider extends React.Component {
   };
 
   substractItemCountInCart = (id) => {
-    const newArray = this.state.cartItems.map((item) => {
-      if (item.cartItemId === id) item.qty = item.qty - 1;
-      return item;
-    });
+    // modify the count and remove items with qty < 1
+    const newArray = this.state.cartItems
+      .map((item) => {
+        if (item.cartItemId === id && item.qty) item.qty = item.qty - 1;
+        return item;
+      })
+      .filter((item) => item.qty > 0);
+
     this.setState({
       cartItems: newArray,
     });
