@@ -4,7 +4,7 @@ import cart from "./icons/Empty Cart.svg";
 import withDataContext from "../../Context/DataContextProvider";
 import MiniCartOverlay from "../MiniCart/MiniCartOverlay";
 import CurrencySwitcher from "../CurrencySwitcher/CurrencySwitcher";
-
+import { Link } from "react-router-dom";
 export class Navbar extends Component {
   state = {
     isCartVisible: false,
@@ -61,9 +61,11 @@ export class Navbar extends Component {
                 categories.map((c) => {
                   const navClasses = c === activeCategory ? "nav__link  nav__link-active" : "nav__link";
                   return (
-                    <li key={c} className={navClasses} onClick={() => selectCategory(c)}>
-                      <a href="#">{c}</a>
-                    </li>
+                    <Link key={c} to="/">
+                      <li className={navClasses} onClick={() => selectCategory(c)}>
+                        {c}
+                      </li>
+                    </Link>
                   );
                 })}
             </ul>

@@ -1,7 +1,88 @@
-export const products = [
+export const cartItems = [
+  {
+    id: "huarache-x-stussy-le",
+    name: "Nike Air Huarache Le",
+    brand: "Nike x Stussy",
+    attributes: [
+      {
+        name: "Size",
+        type: "text",
+        items: [
+          {
+            value: "40",
+          },
+          {
+            value: "41",
+          },
+          {
+            value: "42",
+          },
+          {
+            value: "43",
+          },
+        ],
+      },
+    ],
+    prices: [
+      {
+        amount: 144.69,
+        currency: {
+          label: "USD",
+          symbol: "$",
+        },
+      },
+      {
+        amount: 104,
+        currency: {
+          label: "GBP",
+          symbol: "£",
+        },
+      },
+      {
+        amount: 186.65,
+        currency: {
+          label: "AUD",
+          symbol: "A$",
+        },
+      },
+      {
+        amount: 15625.24,
+        currency: {
+          label: "JPY",
+          symbol: "¥",
+        },
+      },
+      {
+        amount: 10941.76,
+        currency: {
+          label: "RUB",
+          symbol: "₽",
+        },
+      },
+    ],
+    gallery: [
+      "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_2_720x.jpg?v=1612816087",
+      "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_1_720x.jpg?v=1612816087",
+      "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_3_720x.jpg?v=1612816087",
+      "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_5_720x.jpg?v=1612816087",
+      "https://cdn.shopify.com/s/files/1/0087/6193/3920/products/DD1381200_DEOA_4_720x.jpg?v=1612816087",
+    ],
+    qty: 1,
+    selectedAttributes: [
+      {
+        name: "Size",
+        type: "text",
+        items: {
+          value: "40",
+        },
+      },
+    ],
+    cartItemId: 1665442196353,
+  },
   {
     id: "ps-5",
     name: "PlayStation 5",
+    brand: "Sony",
     attributes: [
       {
         name: "Color",
@@ -81,162 +162,80 @@ export const products = [
       "https://images-na.ssl-images-amazon.com/images/I/61qbqFcvoNL._SL1500_.jpg",
       "https://images-na.ssl-images-amazon.com/images/I/51HCjA3rqYL._SL1230_.jpg",
     ],
-  },
-  {
-    id: "xbox-series-s",
-    name: "Xbox Series S 512GB",
-    attributes: [
+    qty: 2,
+    selectedAttributes: [
       {
         name: "Color",
         type: "swatch",
-        items: [
-          {
-            value: "#44FF03",
-          },
-          {
-            value: "#03FFF7",
-          },
-          {
-            value: "#030BFF",
-          },
-          {
-            value: "#000000",
-          },
-          {
-            value: "#FFFFFF",
-          },
-        ],
+        items: {
+          value: "#44FF03",
+        },
       },
       {
         name: "Capacity",
         type: "text",
-        items: [
-          {
-            value: "512G",
-          },
-          {
-            value: "1T",
-          },
-        ],
-      },
-    ],
-    prices: [
-      {
-        amount: 333.99,
-        currency: {
-          label: "USD",
-          symbol: "$",
-        },
-      },
-      {
-        amount: 240.07,
-        currency: {
-          label: "GBP",
-          symbol: "£",
-        },
-      },
-      {
-        amount: 430.85,
-        currency: {
-          label: "AUD",
-          symbol: "A$",
-        },
-      },
-      {
-        amount: 36068.27,
-        currency: {
-          label: "JPY",
-          symbol: "¥",
-        },
-      },
-      {
-        amount: 25257.22,
-        currency: {
-          label: "RUB",
-          symbol: "₽",
+        items: {
+          value: "512G",
         },
       },
     ],
-    gallery: [
-      "https://images-na.ssl-images-amazon.com/images/I/71vPCX0bS-L._SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/71q7JTbRTpL._SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/71iQ4HGHtsL._SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/61IYrCrBzxL._SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/61RnXmpAmIL._SL1500_.jpg",
-    ],
+    cartItemId: 1665442199543,
   },
   {
-    id: "apple-imac-2021",
-    name: "iMac 2021",
+    id: "jacket-canada-goosee",
+    name: "Jacket",
+    brand: "Canada Goose",
     attributes: [
       {
-        name: "Capacity",
+        name: "Size",
         type: "text",
         items: [
           {
-            value: "256GB",
+            value: "S",
           },
           {
-            value: "512GB",
-          },
-        ],
-      },
-      {
-        name: "With USB 3 ports",
-        type: "text",
-        items: [
-          {
-            value: "Yes",
+            value: "M",
           },
           {
-            value: "No",
-          },
-        ],
-      },
-      {
-        name: "Touch ID in keyboard",
-        type: "text",
-        items: [
-          {
-            value: "Yes",
+            value: "L",
           },
           {
-            value: "No",
+            value: "XL",
           },
         ],
       },
     ],
     prices: [
       {
-        amount: 1688.03,
+        amount: 518.47,
         currency: {
           label: "USD",
           symbol: "$",
         },
       },
       {
-        amount: 1213.34,
+        amount: 372.67,
         currency: {
           label: "GBP",
           symbol: "£",
         },
       },
       {
-        amount: 2177.57,
+        amount: 668.83,
         currency: {
           label: "AUD",
           symbol: "A$",
         },
       },
       {
-        amount: 182294.51,
+        amount: 55990.46,
         currency: {
           label: "JPY",
           symbol: "¥",
         },
       },
       {
-        amount: 127653.82,
+        amount: 39207.96,
         currency: {
           label: "RUB",
           symbol: "₽",
@@ -244,176 +243,24 @@ export const products = [
       },
     ],
     gallery: [
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-blue-selection-hero-202104?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1617492405000",
+      "https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016105/product-image/2409L_61.jpg",
+      "https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016107/product-image/2409L_61_a.jpg",
+      "https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016108/product-image/2409L_61_b.jpg",
+      "https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016109/product-image/2409L_61_c.jpg",
+      "https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016110/product-image/2409L_61_d.jpg",
+      "https://images.canadagoose.com/image/upload/w_1333,c_scale,f_auto,q_auto:best/v1634058169/product-image/2409L_61_o.png",
+      "https://images.canadagoose.com/image/upload/w_1333,c_scale,f_auto,q_auto:best/v1634058159/product-image/2409L_61_p.png",
     ],
-  },
-  {
-    id: "apple-iphone-12-pro",
-    name: "iPhone 12 Pro",
-    attributes: [
+    qty: 2,
+    selectedAttributes: [
       {
-        name: "Capacity",
+        name: "Size",
         type: "text",
-        items: [
-          {
-            value: "512G",
-          },
-          {
-            value: "1T",
-          },
-        ],
-      },
-      {
-        name: "Color",
-        type: "swatch",
-        items: [
-          {
-            value: "#44FF03",
-          },
-          {
-            value: "#03FFF7",
-          },
-          {
-            value: "#030BFF",
-          },
-          {
-            value: "#000000",
-          },
-          {
-            value: "#FFFFFF",
-          },
-        ],
-      },
-    ],
-    prices: [
-      {
-        amount: 1000.76,
-        currency: {
-          label: "USD",
-          symbol: "$",
-        },
-      },
-      {
-        amount: 719.34,
-        currency: {
-          label: "GBP",
-          symbol: "£",
-        },
-      },
-      {
-        amount: 1290.99,
-        currency: {
-          label: "AUD",
-          symbol: "A$",
-        },
-      },
-      {
-        amount: 108074.6,
-        currency: {
-          label: "JPY",
-          symbol: "¥",
-        },
-      },
-      {
-        amount: 75680.48,
-        currency: {
-          label: "RUB",
-          symbol: "₽",
+        items: {
+          value: "S",
         },
       },
     ],
-    gallery: [
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-pro-family-hero?wid=940&amp;hei=1112&amp;fmt=jpeg&amp;qlt=80&amp;.v=1604021663000",
-    ],
-  },
-  {
-    id: "apple-airpods-pro",
-    name: "AirPods Pro",
-    attributes: [],
-    prices: [
-      {
-        amount: 300.23,
-        currency: {
-          label: "USD",
-          symbol: "$",
-        },
-      },
-      {
-        amount: 215.8,
-        currency: {
-          label: "GBP",
-          symbol: "£",
-        },
-      },
-      {
-        amount: 387.3,
-        currency: {
-          label: "AUD",
-          symbol: "A$",
-        },
-      },
-      {
-        amount: 32422.38,
-        currency: {
-          label: "JPY",
-          symbol: "¥",
-        },
-      },
-      {
-        amount: 22704.14,
-        currency: {
-          label: "RUB",
-          symbol: "₽",
-        },
-      },
-    ],
-    gallery: [
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MWP22?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1591634795000",
-    ],
-  },
-  {
-    id: "apple-airtag",
-    name: "AirTag",
-    attributes: [],
-    prices: [
-      {
-        amount: 120.57,
-        currency: {
-          label: "USD",
-          symbol: "$",
-        },
-      },
-      {
-        amount: 86.67,
-        currency: {
-          label: "GBP",
-          symbol: "£",
-        },
-      },
-      {
-        amount: 155.54,
-        currency: {
-          label: "AUD",
-          symbol: "A$",
-        },
-      },
-      {
-        amount: 13021.04,
-        currency: {
-          label: "JPY",
-          symbol: "¥",
-        },
-      },
-      {
-        amount: 9118.13,
-        currency: {
-          label: "RUB",
-          symbol: "₽",
-        },
-      },
-    ],
-    gallery: [
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airtag-double-select-202104?wid=445&hei=370&fmt=jpeg&qlt=95&.v=1617761672000",
-    ],
+    cartItemId: 1665442214563,
   },
 ];

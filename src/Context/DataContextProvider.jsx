@@ -2,7 +2,8 @@ import React, { createContext } from "react";
 import axios from "axios";
 import * as graphQl from "../GraphQl/Queries";
 import { compareTwoItems } from "../utils/utils";
-
+import { cartItems } from "./sample";
+import { getProduct } from "../utils/utils";
 // Setup Context
 const DataContext = createContext();
 // export const DataContextConsumer = DataContext.Consumer;
@@ -37,20 +38,20 @@ export class DataContextProvider extends React.Component {
       }, // default currency
     ],
     categories: [],
+
     activeCategory: "all",
     products: [],
     favorits: ["apple-imac-2021", "huarache-x-stussy-le"],
-    cartItems: [],
+    cartItems: [...cartItems],
+    hasDiscounts: [
+      { id: "huarache-x-stussy-le", rate: "50%" },
+      { id: "jacket-canada-goosee", rate: "30%" },
+      { id: "apple-imac-2021", rate: "15%" },
+    ],
   };
 
   addToCart = async (id) => {
-    const query = graphQl.GET_PRODUCTS_BY_ID(id);
-    const {
-      data: { data },
-    } = await axios.post(graphQl.URL, {
-      query,
-    });
-
+    const data = await getProduct(id);
     const selectedAttributes =
       data.product.attributes.length > 0
         ? data.product.attributes.map((attr) => ({ ...attr, items: attr.items[0] }))
@@ -147,6 +148,7 @@ export class DataContextProvider extends React.Component {
     } = await axios.post(graphQl.URL, {
       query: graphQl.GET_PRODUCTS(this.state.activeCategory),
     });
+
     this.setState({ products: data.category });
   };
 
@@ -160,6 +162,7 @@ export class DataContextProvider extends React.Component {
   };
 
   getCurrencies = async () => {
+    this.setState({ loading: true });
     const {
       data: { data },
     } = await axios.post(graphQl.URL, {
@@ -174,10 +177,11 @@ export class DataContextProvider extends React.Component {
 
   // update state on mount
   componentDidMount = function () {
-    this.getProducts();
-    this.getCategories();
-    this.getCurrencies();
-    this.setState({ loading: false });
+    const fetchAll = async () => {
+      Promise.all([this.getProducts(), this.getCategories(), this.getCurrencies()]).finally();
+    };
+
+    fetchAll().finally(() => this.setState({ loading: false }));
   };
 
   componentDidUpdate = function (prevProps, prevState) {
@@ -186,8 +190,18 @@ export class DataContextProvider extends React.Component {
   };
 
   render() {
-    const { categories, currency, error, loading, products, favorits, cartItems, activeCategory, currencies } =
-      this.state;
+    const {
+      categories,
+      currency,
+      error,
+      loading,
+      products,
+      favorits,
+      cartItems,
+      activeCategory,
+      currencies,
+      hasDiscounts,
+    } = this.state;
     const { addToCart, selectCategory, setCurrency, addItemCountInCart, substractItemCountInCart, modifyAttribute } =
       this;
     return (
@@ -203,6 +217,8 @@ export class DataContextProvider extends React.Component {
           cartItems,
           activeCategory,
           currencies,
+          hasDiscounts,
+
           selectCategory,
           setCurrency,
           addToCart,

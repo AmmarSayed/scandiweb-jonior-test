@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import withDataContext from "../../Context/DataContextProvider";
 import MiniCartItem from "./MiniCartItem";
+import { Link } from "react-router-dom";
 
 export class MiniCartOverlay extends Component {
   render() {
@@ -13,6 +14,7 @@ export class MiniCartOverlay extends Component {
       const productTotal = cur.qty * price;
       return Number((acc + productTotal).toFixed(2));
     }, 0);
+
     return (
       <div>
         <div className="cart-verlay__container">
@@ -36,7 +38,9 @@ export class MiniCartOverlay extends Component {
             </p>
           </div>
           <div className="cart-overlay__actions">
-            <button className=" btn btn-secondary">View Bag</button>
+            <button className=" btn btn-secondary" onClick={toggle}>
+              <Link to="cart">View Bag</Link>{" "}
+            </button>
             <button className=" btn btn-primary">checkout</button>
           </div>
         </div>

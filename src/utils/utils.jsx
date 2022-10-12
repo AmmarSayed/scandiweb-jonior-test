@@ -1,3 +1,6 @@
+import axios from "axios";
+import * as graphQl from "../GraphQl/Queries";
+
 export function compareAttr(attr1, attr2) {
   const { items, name, type } = attr1;
   const isSameAttrName = attr2.name === name;
@@ -19,11 +22,16 @@ export const isSelected = (testedAttr, listOfSelectedAttributes) => {
 
 export const compareTwoItems = (item1, item2) => {
   const sameID = item1.id === item2.id;
+  if (!sameID) return;
 
   const sameAttributes = item1.selectedAttributes
     .map((item1Attr) => {
-      // get the same attribute from item 2
+      // get the same attribute for item 2
       const item2Attr = item2.selectedAttributes.filter((attr2) => attr2.name === item1Attr.name)[0];
+
+      console.log(item1Attr);
+      console.log(item2Attr);
+
       return compareAttr(item1Attr, item2Attr);
     })
     .every((item) => item === true);
@@ -32,43 +40,12 @@ export const compareTwoItems = (item1, item2) => {
   return validity;
 };
 
-// Add to Cart function
-
-export const addToCart = async (id) => {
+export const getProduct = async (id) => {
   const query = graphQl.GET_PRODUCTS_BY_ID(id);
   const {
     data: { data },
   } = await axios.post(graphQl.URL, {
     query,
   });
-
-  const selectedAttributes =
-    data.product.attributes.length > 0
-      ? data.product.attributes.map((attr) => ({ ...attr, items: attr.items[0] }))
-      : null; //set first attribute as default
-
-  const newProduct = {
-    ...data.product,
-    qty: 1,
-    selectedAttributes,
-  };
-
-  // check if similar item exists
-  const similarProducts = this.state.cartItems.filter((currentItem) => compareTwoItems(currentItem, newProduct));
-
-  // update the qty if similar item exists
-  if (similarProducts.length > 0) {
-    const existingCartId = similarProducts[0].cartItemId;
-    const newItems = this.state.cartItems.map((item) => {
-      if (item.cartItemId === existingCartId) item.qty = item.qty + 1;
-      return item;
-    });
-    this.setState({ cartItems: [...newItems] });
-    return;
-  }
-
-  // create a new  Id to add item into the cart
-  newProduct.cartItemId = new Date().getTime();
-  // put a new item in cart
-  this.setState({ cartItems: [...this.state.cartItems, newProduct] });
+  return data;
 };

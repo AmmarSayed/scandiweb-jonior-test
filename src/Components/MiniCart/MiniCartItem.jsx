@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import withDataContext from "../../Context/DataContextProvider";
 import { isSelected } from "../../utils/utils";
+import Attribute from "./Attribute";
 
 export class MiniCartItem extends Component {
   render() {
-    const { cartItemId, name, brand, prices, attributes, gallery, selectedAttributes, qty } = this.props;
+    const { cartItemId, name, brand, prices, attributes, gallery, selectedAttributes, qty, displayOnCartPage } =
+      this.props;
     const { currency, addItemCountInCart, substractItemCountInCart, modifyAttribute } = this.props.dataContext;
     const [price] = prices.filter((price) => price.currency.label === currency.label);
 
     return (
-      <div className="cart-item">
+      <div className={`cart-item ${displayOnCartPage ? "displayOnCartPage" : null}`}>
         <div className="cart-item__info">
-          <h4>{brand}</h4>
+          <h5 className="brand">{brand}</h5>
           <h5>{name}</h5>
           <p>
             <b>
@@ -21,35 +23,24 @@ export class MiniCartItem extends Component {
           </p>
 
           {attributes.length > 0 &&
-            attributes.map((attr) => {
-              const { name, type, items } = attr;
-
-              return (
-                <div key={name} className="cart-item__info__attribute">
-                  <h5>{name}</h5>
-                  <ul>
-                    {items.map((item) => {
-                      const listStyle = type === "swatch" ? "color" : "";
-                      const content = type === "swatch" ? "" : item.value;
-                      const bgColor = type === "swatch" ? item.value : "";
-                      const attrObject = { name, type, items: item };
-                      const isSelectedAttribute = isSelected(attrObject, selectedAttributes);
-                      const classes = `${listStyle} ${isSelectedAttribute ? "active" : null}`;
-                      return (
-                        <li
-                          key={item.value}
-                          className={classes}
-                          style={{ backgroundColor: bgColor }}
-                          onClick={() => modifyAttribute(cartItemId, attrObject)}
-                        >
-                          {content}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
+            attributes
+              .sort((a, b) => {
+                return a.name - b.name;
+              })
+              .map((attr) => {
+                return (
+                  <Attribute
+                    key={attr.name}
+                    selectedAttributes={selectedAttributes}
+                    modifyAttribute={modifyAttribute}
+                    isSelected={isSelected}
+                    cartItemId={cartItemId || null}
+                    name={attr.name}
+                    type={attr.type}
+                    attrItems={attr.items}
+                  />
+                );
+              })}
         </div>
         <div className="cart-item__controls">
           <button onClick={() => addItemCountInCart(cartItemId)}>+</button>
