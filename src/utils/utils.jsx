@@ -13,11 +13,11 @@ export function compareAttr(attr1, attr2) {
 
 // test if an attribute is selected
 export const isSelected = (testedAttr, listOfSelectedAttributes) => {
-  const valid =
+  const isSelected =
     listOfSelectedAttributes.filter((attr) => {
       return compareAttr(attr, testedAttr);
     }).length > 0;
-  return valid;
+  return isSelected;
 };
 
 export const compareTwoItems = (item1, item2) => {
@@ -29,15 +29,12 @@ export const compareTwoItems = (item1, item2) => {
       // get the same attribute for item 2
       const item2Attr = item2.selectedAttributes.filter((attr2) => attr2.name === item1Attr.name)[0];
 
-      console.log(item1Attr);
-      console.log(item2Attr);
-
       return compareAttr(item1Attr, item2Attr);
     })
     .every((item) => item === true);
 
-  const validity = sameID && sameAttributes;
-  return validity;
+  const isValid = sameID && sameAttributes;
+  return isValid;
 };
 
 export const getProduct = async (id) => {

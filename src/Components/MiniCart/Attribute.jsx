@@ -2,9 +2,7 @@ import React, { Component } from "react";
 
 export class Attribute extends Component {
   state = {};
-  componentDidMount = function () {
-    console.log(this.props);
-  };
+  componentDidMount = function () {};
 
   render() {
     const { selectedAttributes, isSelected = null, modifyAttribute, cartItemId, name, type, attrItems } = this.props;

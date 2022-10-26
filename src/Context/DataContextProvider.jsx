@@ -52,6 +52,7 @@ export class DataContextProvider extends React.Component {
 
   addToCart = async (id) => {
     const data = await getProduct(id);
+
     const selectedAttributes =
       data.product.attributes.length > 0
         ? data.product.attributes.map((attr) => ({ ...attr, items: attr.items[0] }))

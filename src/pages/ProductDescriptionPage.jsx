@@ -14,7 +14,6 @@ export class ProductDescriptionPage extends Component {
   componentDidMount = function () {
     (async () => {
       const { searchParams } = new URL(window.location.href);
-
       const pId = searchParams.get("id");
       const currencyLabel = searchParams.get("cur");
       try {
@@ -29,15 +28,16 @@ export class ProductDescriptionPage extends Component {
   componentDidUpdate = function (_, prevState) {
     if (prevState.product?.id !== this.state.product.id) {
       this.setState({ loading: false });
-      console.log(this.state);
     }
+    console.log(this.state.product);
   };
 
   render() {
     const { modifyAttribute } = this.props.dataContext;
     const price = this.state.loading
       ? { amount: 0, currency: { label: "USD", symbol: "$" } }
-      : this.state.product.prices.map((p) => p.currency.label === this.state.currencyLabel);
+      : this.state.product.prices.find((p) => p.currency.label === this.state.currencyLabel);
+
     return (
       <section className="section container product-page">
         {this.state.loading && <div className="loading"></div>}
@@ -46,11 +46,13 @@ export class ProductDescriptionPage extends Component {
           <div>
             <div className="product-tiles"></div>
             <div className="product-info">
-              <div className="product-image"></div>
+              <div className="product-image">
+                {/* <img src={this.state.product.gallery[0]} alt={this.state.product.name} /> */}
+              </div>
               <div className="product-item-details">
                 <div className="cart-item__info">
                   <h5 className="brand">{this.state.product.brand}</h5>
-                  <h5>{name}</h5>
+                  <h5>{this.state.product.name}</h5>
                   <p>
                     <b>
                       {price?.currency?.symbol}
