@@ -1,54 +1,57 @@
 import React, { Component } from "react";
-import withDataContext from "../../Context/DataContextProvider";
-import MiniCartItem from "./MiniCartItem";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { toggleCartVisibility } from "../../features/cart/cartSlice";
 
 export class MiniCartOverlay extends Component {
   render() {
-    const { cartItems, currency } = this.props.dataContext;
-    const { toggle } = this.props;
+    const { cartItems, cartCurrency, cartTotalCost } = this.props.store.cart;
+    const { toggleCartVisibility } = this.props;
     const len = cartItems.length;
-
-    const total = cartItems.reduce((acc, cur) => {
-      const price = cur.prices.filter((p) => p.currency.label === currency.label)[0].amount;
-      const productTotal = cur.qty * price;
-      return Number((acc + productTotal).toFixed(2));
-    }, 0);
 
     return (
       <div>
         <div className="cart-verlay__container">
           <h5>
             <b>my bag, </b>
-            <span>
-              {len}
-              {len > 1 ? " items" : " item"}
-            </span>
+            <span>{len > 1 ? `${len} items` : `${len} item`}</span>
           </h5>
           <div className="items">
+            {/* 
+            
+            
             {cartItems.map((item) => {
-              return <MiniCartItem key={item.cartItemId} {...item} />;
+              return <MiniCartItem key={item.id} {...item} />;
             })}
+            
+            */}
           </div>
           <div className="cart-overlay__total-price">
             <p>total</p>
             <p>
-              {currency.symbol}
-              {total}
+              {cartCurrency} {cartTotalCost}
             </p>
           </div>
           <div className="cart-overlay__actions">
-            <button className=" btn btn-secondary" onClick={toggle}>
-              <Link to="cart">View Bag</Link>{" "}
+            <button className=" btn btn-secondary" onClick={() => toggleCartVisibility()}>
+              <Link to="cart">View Bag</Link>
             </button>
-            <button className=" btn btn-primary">checkout</button>
+            <button className=" btn btn-primary" onClick={() => toggleCartVisibility()}>
+              checkout
+            </button>
           </div>
         </div>
 
-        <div className="cart-overlay " onClick={toggle}></div>
+        <div className="cart-overlay " onClick={() => toggleCartVisibility()}></div>
       </div>
     );
   }
 }
 
-export default withDataContext(MiniCartOverlay);
+const mapStateToProps = (state) => ({
+  store: state,
+});
+
+const mapActionsToProps = { toggleCartVisibility };
+
+export default connect(mapStateToProps, mapActionsToProps)(MiniCartOverlay);

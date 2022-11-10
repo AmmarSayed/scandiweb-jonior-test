@@ -6,11 +6,15 @@ import ProductsLandingPage from "./pages/ProductsLandingPage";
 import ProductDescriptionPage from "./pages/ProductDescriptionPage";
 import CartPage from "./pages/CartPage";
 import { calcTotal } from "./features/cart/cartSlice";
+import { getProducts } from "./features/products/productsSlice";
+import { getSingleProduct } from "./features/singleProduct/singleProductsSlice";
 
 import { connect } from "react-redux";
 export class App extends Component {
   componentDidMount() {
     this.props.calcTotal();
+    this.props.getProducts();
+    this.props.getSingleProduct("huarache-x-stussy-le");
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +44,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { calcTotal };
+const mapActionsToProps = { calcTotal, getProducts, getSingleProduct };
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

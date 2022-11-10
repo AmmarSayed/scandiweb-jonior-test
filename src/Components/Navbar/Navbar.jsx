@@ -43,7 +43,7 @@ export class Navbar extends Component {
 
     return (
       <header className="header">
-        {isCartVisible && <MiniCartOverlay toggle={toggleCartVisibility} />}
+        {isCartVisible && <MiniCartOverlay />}
         {/* 
         {this.state.isCurrencySwithcerVisible && <CurrencySwitcher closeCurrency={this.closeCurrency} />}
         
@@ -63,7 +63,7 @@ export class Navbar extends Component {
                 className="nav__action cartBtn"
                 data-cart="cartBtn"
                 onClick={() => {
-                  this.props.toggleCartVisibility();
+                  toggleCartVisibility();
                 }}
               >
                 <img src={cartIcon} alt="cart" />

@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cartItems } from "../sampleData";
 
 const initialState = {
-  cartItems: [{ name: "sample", amount: 2, price: 0 }],
+  cartItems: cartItems,
   cartItemsCount: 0,
   cartTotalCost: 0,
+  cartCurrency: "RUB",
   isCartVisible: false,
 };
 
@@ -25,18 +27,19 @@ const cartSlice = createSlice({
     calcTotal: (state) => {
       let totalCost = 0;
       let totalCount = 0;
-
       if (!state.cartItems.length) return;
+
       state.cartItems.forEach((i) => {
-        totalCount += i.amount;
-        totalCost += i.amount * i.price;
+        const [filteredPrice] = i.prices.filter((pr) => pr.currency.label === state.cartCurrency);
+        const { amount } = filteredPrice;
+        totalCount += i.qty;
+        totalCost += i.qty * amount;
       });
 
       state.cartItemsCount = totalCount;
       state.cartTotalCost = totalCost;
     },
     toggleCartVisibility: (state) => {
-      console.log("toggle");
       state.isCartVisible = !state.isCartVisible;
     },
   },
