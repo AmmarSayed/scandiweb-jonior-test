@@ -5,11 +5,12 @@ import { connect } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
 export class ProductsLandingPage extends Component {
   render() {
-    const { products } = this.props.store;
+    const { products, cart } = this.props.store;
     const { addItem } = this.props;
 
     // favorits, cartItems, addToCart, activeCategory, hasDiscounts, loading
-    const { active_currency, active_category, products_loading, products_items } = products;
+    const { active_category, products_loading, products_items } = products;
+    const { cartCurrency } = cart;
 
     return (
       <div className="container">
@@ -24,11 +25,10 @@ export class ProductsLandingPage extends Component {
                   <Card
                     key={product.id}
                     {...product}
-                    currency={active_currency}
+                    cartCurrency={cartCurrency}
                     // isFavorite={favorits.includes(product.id)}
-                    // inCart={cartItems.map((item) => item.id).includes(product.id)}
-                    addItem={addItem}
                     // hasDiscounts={hasDiscounts}
+                    addItem={addItem}
                   />
                 );
               })}

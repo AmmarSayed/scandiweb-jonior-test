@@ -7,12 +7,16 @@ import ProductDescriptionPage from "./pages/ProductDescriptionPage";
 import CartPage from "./pages/CartPage";
 import { calcTotal } from "./features/cart/cartSlice";
 import { getProducts } from "./features/products/productsSlice";
+import { getCategories } from "./features/categories/categoriesSlice";
+import { getCurrencies } from "./features/currencies/currenciesSlice";
 
 import { connect } from "react-redux";
 export class App extends Component {
   componentDidMount() {
     this.props.calcTotal();
     this.props.getProducts();
+    this.props.getCategories();
+    this.props.getCurrencies();
   }
 
   componentDidUpdate(prevProps) {
@@ -47,6 +51,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { calcTotal, getProducts };
+const mapActionsToProps = { calcTotal, getProducts, getCategories, getCurrencies };
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

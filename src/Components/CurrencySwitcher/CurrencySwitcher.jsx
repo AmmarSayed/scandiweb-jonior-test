@@ -1,25 +1,34 @@
 import React, { Component } from "react";
-import withDataContext from "../../Context/DataContextProvider";
+import { toggleCurrenySwitcher } from "../../features/currencies/currenciesSlice";
+import { connect } from "react-redux";
+import { setCartCurrency } from "../../features/cart/cartSlice";
 
 export class CurrencySwitcher extends Component {
   render() {
-    // const { currencies, setCurrency } = this.context;
-    const { currencies, setCurrency } = this.props.dataContext;
+    const { setCartCurrency, toggleCurrenySwitcher } = this.props;
+    const { currencies } = this.props.store;
+    const { isCurrenySwitchOpen } = this.props.store.products;
+    const { currencies_items } = currencies;
 
     return (
       <div>
-        <div className="cart-overlay " onClick={this.props.closeCurrency}></div>
+        <div
+          className="cart-overlay "
+          onClick={() => {
+            toggleCurrenySwitcher(false);
+          }}
+        ></div>
 
         <div className="currency-list">
           <ul>
-            {currencies.map((cur) => {
+            {currencies_items.map((cur) => {
               const { label, symbol } = cur;
               return (
                 <li
                   key={label}
                   onClick={() => {
-                    setCurrency({ label, symbol });
-                    this.props.closeCurrency();
+                    setCartCurrency(label);
+                    toggleCurrenySwitcher(false);
                   }}
                 >
                   <p>{symbol}</p> <p>{label}</p>
@@ -33,7 +42,10 @@ export class CurrencySwitcher extends Component {
   }
 }
 
-export default withDataContext(CurrencySwitcher);
+const mapStateToProps = (state) => ({
+  store: state,
+});
 
-// export default CurrencySwitcher;
-// CurrencySwitcher.contextType = DataContext;
+const mapActionsToProps = { toggleCurrenySwitcher, setCartCurrency };
+
+export default connect(mapStateToProps, mapActionsToProps)(CurrencySwitcher);

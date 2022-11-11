@@ -35,16 +35,16 @@ export class MiniCartOverlay extends Component {
             </p>
           </div>
           <div className="cart-overlay__actions">
-            <button className=" btn btn-secondary" onClick={() => toggleCartVisibility()}>
+            <button className=" btn btn-secondary" onClick={() => toggleCartVisibility(false)}>
               <Link to="cart">View Bag</Link>
             </button>
-            <button className=" btn btn-primary" onClick={() => toggleCartVisibility()}>
+            <button className=" btn btn-primary" onClick={() => toggleCartVisibility(false)}>
               checkout
             </button>
           </div>
         </div>
 
-        <div className="cart-overlay " onClick={() => toggleCartVisibility()}></div>
+        <div className="cart-overlay " onClick={() => toggleCartVisibility(false)}></div>
       </div>
     );
   }

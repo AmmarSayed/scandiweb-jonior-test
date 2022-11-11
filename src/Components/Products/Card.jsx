@@ -5,16 +5,15 @@ import { Link } from "react-router-dom";
 export class Card extends Component {
   render() {
     //isFavorite, inCart, hasDiscounts
-    const { id, currency, prices, gallery, name, brand, addItem, attributes, inStock } = this.props;
-    const { label = "USD" } = currency;
+    const { id, cartCurrency, prices, gallery, name, brand, addItem, attributes, inStock } = this.props;
 
-    const [price] = prices.filter((p) => p.currency.label === label);
+    const price = prices.find((p) => p.currency.label === cartCurrency);
 
     // const hasDiscount = hasDiscounts.filter((item) => item.id === id);
     const cartClasses = !inStock ? "card__cart hide" : "card__cart";
     return (
       <div className="card">
-        <Link to={`product?id=${id}&cur=${label}`}>
+        <Link to={`product?id=${id}`}>
           <div className="card_img">
             <img src={gallery[0]} alt="product B" className="img" />
 
@@ -41,7 +40,7 @@ export class Card extends Component {
             {brand} - {name}
           </p>
           <p className="cart__price">
-            <span>{price.currency.symbol}</span> {price.amount}
+            <span>{price.currency.symbol}</span> {price?.amount || 0}
           </p>
         </div>
       </div>

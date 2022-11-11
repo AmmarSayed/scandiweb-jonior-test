@@ -13,7 +13,7 @@ const initialState = {
   cartTotalCost: 0,
   cartCurrency: "RUB",
   cart_error: null,
-  isCartVisible: false,
+  isCartOpen: false,
 };
 
 const cartSlice = createSlice({
@@ -42,6 +42,9 @@ const cartSlice = createSlice({
       state.cart_error = action.payload;
     },
 
+    setCartCurrency: (state, action) => {
+      state.cartCurrency = action.payload;
+    },
     calcTotal: (state) => {
       let totalCost = 0;
       let totalCount = 0;
@@ -62,12 +65,22 @@ const cartSlice = createSlice({
       state.cartItemsCount = totalCount;
       state.cartTotalCost = totalCost;
     },
-    toggleCartVisibility: (state) => {
-      state.isCartVisible = !state.isCartVisible;
+
+    toggleCartVisibility: (state, action) => {
+      state.isCartOpen = action.payload;
     },
   },
 });
 
 export default cartSlice.reducer;
-export const { clearCart, increaseQty, decreaseQty, addItem, removeItem, cartError, calcTotal, toggleCartVisibility } =
-  cartSlice.actions;
+export const {
+  clearCart,
+  increaseQty,
+  decreaseQty,
+  addItem,
+  removeItem,
+  cartError,
+  calcTotal,
+  toggleCartVisibility,
+  setCartCurrency,
+} = cartSlice.actions;

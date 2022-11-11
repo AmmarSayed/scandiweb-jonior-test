@@ -1,55 +1,37 @@
 import React, { Component } from "react";
 import logo from "./icons/logo.svg";
 import cartIcon from "./icons/Empty Cart.svg";
-import withDataContext from "../../Context/DataContextProvider";
+
 import MiniCartOverlay from "../MiniCart/MiniCartOverlay";
 import CurrencySwitcher from "../CurrencySwitcher/CurrencySwitcher";
 import { Link } from "react-router-dom";
-import store from "../../app/store";
+
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../features/cart/cartSlice";
+import { toggleCurrenySwitcher } from "../../features/currencies/currenciesSlice";
 
 export class Navbar extends Component {
-  /*
-  closeCurrency = () => {
-    this.setState({ isCurrencySwithcerVisible: !this.state.isCurrencySwithcerVisible });
-  };
-
-*/
-
   closeNavBarActionButtons = (e) => {
-    const cartBtn = e.target.closest(".cartBtn") || null;
-    const currBtn = e.target.closest(".currBtn") || null;
-
-    /*
-  if (cartBtn?.dataset.cart === "cartBtn") {
-    return this.setState({
-      isCurrencySwithcerVisible: false,
-    });
-  }
-
-  if (currBtn?.dataset.currency === "currBtn") {
-    return this.setState({
-      isCartVisible: false,
-    });
-    */
+    const nav_action_btn = e.target.closest(".nav__action") || null;
+    if (nav_action_btn) return;
+    this.props.toggleCurrenySwitcher(false);
+    this.props.toggleCartVisibility(false);
   };
 
   render() {
-    const { cart } = this.props.store;
-
-    const { cartItemsCount, isCartVisible } = cart;
-    const { toggleCartVisibility } = this.props;
+    const { cart, currencies } = this.props.store;
+    const { cartItemsCount, isCartOpen, cartCurrency } = cart;
+    const { isCurrenySwitchOpen, currencies_loading, currencies_items } = currencies;
+    const activeCurrency = currencies_items.find((c) => c.label === cartCurrency);
+    const { toggleCartVisibility, toggleCurrenySwitcher } = this.props;
 
     return (
       <header className="header">
-        {isCartVisible && <MiniCartOverlay />}
-        {/* 
-        {this.state.isCurrencySwithcerVisible && <CurrencySwitcher closeCurrency={this.closeCurrency} />}
-        
-        */}
+        {isCartOpen && <MiniCartOverlay />}
 
-        <nav>
+        {isCurrenySwitchOpen && <CurrencySwitcher />}
+
+        <nav onClick={this.closeNavBarActionButtons}>
           <div className="container nav__container">
             <ul className="nav__links"></ul>
             <div className="nav__logo">
@@ -57,13 +39,22 @@ export class Navbar extends Component {
             </div>
 
             <div className="nav__actions">
-              <div className="currBtn nav__action" data-currency="currBtn"></div>
+              <div
+                className="currBtn nav__action"
+                onClick={() => {
+                  toggleCurrenySwitcher(!isCurrenySwitchOpen);
+                  toggleCartVisibility(false);
+                }}
+              >
+                {!currencies_loading ? activeCurrency?.symbol : "USD"}
+                {isCurrenySwitchOpen ? <p className="up">⌃</p> : <p>⌄</p>}
+              </div>
 
               <div
                 className="nav__action cartBtn"
-                data-cart="cartBtn"
                 onClick={() => {
-                  toggleCartVisibility();
+                  toggleCartVisibility(!isCartOpen);
+                  toggleCurrenySwitcher(false);
                 }}
               >
                 <img src={cartIcon} alt="cart" />
@@ -81,9 +72,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { toggleCartVisibility };
+const mapActionsToProps = { toggleCartVisibility, toggleCurrenySwitcher };
 
 export default connect(mapStateToProps, mapActionsToProps)(Navbar);
-
-// export default Navbar;
-// Navbar.contextType = DataContext;

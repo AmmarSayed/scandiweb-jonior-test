@@ -22,11 +22,15 @@ const initialState = {
   products_items: [],
   products_loading: false,
   products_error: false,
-  featured_products: [],
+  favorits: ["apple-imac-2021", "huarache-x-stussy-le"],
+
+  hasDiscounts: [
+    { id: "huarache-x-stussy-le", rate: "50%" },
+    { id: "jacket-canada-goosee", rate: "30%" },
+    { id: "apple-imac-2021", rate: "15%" },
+  ],
 
   active_category: "all",
-
-  active_currency: "USD",
 };
 
 const productSlice = createSlice({
@@ -35,9 +39,6 @@ const productSlice = createSlice({
   reducers: {
     setCategory: (state, action) => {
       state.active_category = action.payload;
-    },
-    setCurrency: (state, action) => {
-      state.active_currency = action.payload;
     },
   },
   extraReducers: {
@@ -59,4 +60,4 @@ const productSlice = createSlice({
 
 export default productSlice.reducer;
 
-export const { setCategory, setCurrency } = productSlice.actions;
+export const { setCategory } = productSlice.actions;
