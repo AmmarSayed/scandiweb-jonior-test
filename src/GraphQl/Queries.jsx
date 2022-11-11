@@ -25,7 +25,6 @@ export const GET_PRODUCTS = (c) => {
         products {
           id
           name
-          description
           brand
           inStock
           attributes {
@@ -42,7 +41,6 @@ export const GET_PRODUCTS = (c) => {
               symbol
             }
           }
-
           gallery
         }
       }
@@ -57,6 +55,7 @@ export const GET_PRODUCTS_BY_ID = (id) => {
         id
         name
         brand
+        description
         attributes {
           name
           type

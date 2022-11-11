@@ -6,20 +6,26 @@ import MiniCartItem from "./MiniCartItem";
 
 export class MiniCartOverlay extends Component {
   render() {
-    const { cartItems, cartCurrency, cartTotalCost } = this.props.store.cart;
+    const { cartItems, cartCurrency, cartTotalCost, cartItemsCount } = this.props.store.cart;
     const { toggleCartVisibility } = this.props;
-    const len = cartItems.length;
 
     return (
       <div>
         <div className="cart-verlay__container">
           <h5>
             <b>my bag, </b>
-            <span>{len > 1 ? `${len} items` : `${len} item`}</span>
+            <span>{cartItemsCount > 1 ? `${cartItemsCount} items` : `${cartItemsCount} item`}</span>
           </h5>
           <div className="items">
             {cartItems.map((item) => {
-              return <MiniCartItem key={item.id} {...item} cartCurrency={cartCurrency} cartTotalCost={cartTotalCost} />;
+              return (
+                <MiniCartItem
+                  key={item.cart_item_id}
+                  {...item}
+                  cartCurrency={cartCurrency}
+                  cartTotalCost={cartTotalCost}
+                />
+              );
             })}
           </div>
           <div className="cart-overlay__total-price">

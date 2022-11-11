@@ -19,11 +19,14 @@ export class App extends Component {
     const { cartItems } = this.props.store.cart;
     const prevCartItems = prevProps.store.cart.cartItems;
 
+    // update local storage
+    if (!cartItems.length) localStorage.removeItem("cart");
+    if (cartItems.length) localStorage.setItem("cart", JSON.stringify(cartItems));
+
+    // update totals on change
     if (cartItems !== prevCartItems) {
       this.props.calcTotal();
     }
-
-    if (cartItems) localStorage.setItem("cart", JSON.stringify(cartItems));
   }
 
   render() {

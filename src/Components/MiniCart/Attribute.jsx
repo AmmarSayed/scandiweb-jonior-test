@@ -12,7 +12,8 @@ export class Attribute extends Component {
             const listStyle = attr.type === "swatch" ? "color" : "";
             const content = attr.type === "swatch" ? "" : attrItem.value;
             const bgColor = attr.type === "swatch" ? attrItem.value : "";
-            const isSelectedAttribute = selectedAttributes[attr.name] === attrItem.value;
+
+            const isSelectedAttribute = selectedAttributes ? selectedAttributes[attr.name] === attrItem.value : null;
 
             const classes = `${listStyle} ${isSelectedAttribute ? "active" : null}`;
             return (

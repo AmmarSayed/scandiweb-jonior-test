@@ -17,14 +17,21 @@ export const getSingleProduct = createAsyncThunk("singleProduct/getProduct", asy
 });
 
 const initialState = {
-  single_product: {},
-  single_product_loading: false,
+  selected_attributes: {},
+  single_product_item: {},
+  single_product_loading: true,
   single_product_error: false,
 };
 
 const singleProductSlice = createSlice({
   name: "singleProduct",
   initialState,
+  reducers: {
+    selectAttribute: (state, action) => {
+      const { name, value } = action.payload;
+      state.selected_attributes = { ...state.selected_attributes, [name]: value };
+    },
+  },
   extraReducers: {
     [getSingleProduct.pending]: (state) => {
       state.single_product_loading = true;
@@ -32,7 +39,7 @@ const singleProductSlice = createSlice({
 
     [getSingleProduct.fulfilled]: (state, action) => {
       state.single_product_loading = false;
-      state.single_product = action.payload;
+      state.single_product_item = action.payload;
     },
 
     [getSingleProduct.rejected]: (state, payload) => {
@@ -44,4 +51,4 @@ const singleProductSlice = createSlice({
 
 export default singleProductSlice.reducer;
 
-export const {} = singleProductSlice.actions;
+export const { selectAttribute } = singleProductSlice.actions;

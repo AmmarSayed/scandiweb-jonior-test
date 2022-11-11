@@ -53,19 +53,18 @@ export const getProduct = async (id) => {
 };
 
 export const addToCart = (cartItems = [], product) => {
-  const { id, attributes } = product;
+  const { id, attributes, selected_attributes } = product;
 
-  const selectedAttributes =
-    attributes.length > 0 ? attributes.map((attr) => ({ name: attr.name, value: attr.items[0].value })) : null; //set first attribute as default
+  const selectedAttributes = selected_attributes
+    ? { ...selected_attributes }
+    : attributes.reduce((prev, attr) => ({ ...prev, [attr.name]: attr.items[0].value }), {}); //set first attribute as default
 
   // generate Id
-  const attrId = selectedAttributes.map((i) => `-${i.name}-${i.value}`).join("");
-  const cart_item_id = `${id}${attrId}`;
+  const attrId = Object.entries(selectedAttributes)
+    .map(([i, b]) => `${[i.split(" ").join("")]}-${b}`)
+    .join("_");
 
-  const attributesObj = selectedAttributes.reduce((prev, curr) => {
-    const newObj = { [curr.name]: curr.value };
-    return { ...prev, ...newObj };
-  }, {});
+  const cart_item_id = `${id}_${attrId}`;
 
   const tempItem = cartItems.find((i) => i.cart_item_id === cart_item_id);
 
@@ -74,7 +73,7 @@ export const addToCart = (cartItems = [], product) => {
       ...product,
       cart_item_id,
       qty: 1,
-      selectedAttributes: attributesObj,
+      selected_attributes: selectedAttributes,
     };
     return [...cartItems, newItem];
   }

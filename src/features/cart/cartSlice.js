@@ -12,6 +12,7 @@ const initialState = {
   cartItemsCount: 0,
   cartTotalCost: 0,
   cartCurrency: "RUB",
+  cart_error: null,
   isCartVisible: false,
 };
 
@@ -25,11 +26,9 @@ const cartSlice = createSlice({
     addItem: (state, action) => {
       const tempCart = addToCart(state.cartItems, action.payload);
       state.cartItems = tempCart;
-      // state.cartItemsCount += 1;
     },
     removeItem: (state, action) => {
-      state.cartItems.filter((i) => i.cart_item_id !== action.payload);
-      // state.cartItemsCount -= 1;
+      state.cartItems = state.cartItems.filter((i) => i.cart_item_id !== action.payload);
     },
     increaseQty: (state, action) => {
       const index = state.cartItems.findIndex((i) => i.cart_item_id === action.payload);
@@ -39,11 +38,19 @@ const cartSlice = createSlice({
       const index = state.cartItems.findIndex((i) => i.cart_item_id === action.payload);
       state.cartItems[index].qty -= 1;
     },
+    cartError: (state, action) => {
+      state.cart_error = action.payload;
+    },
 
     calcTotal: (state) => {
       let totalCost = 0;
       let totalCount = 0;
-      if (!state.cartItems.length) return;
+
+      if (!state.cartItems.length) {
+        state.cartItemsCount = 0;
+        state.cartTotalCost = 0;
+        return;
+      }
 
       state.cartItems.forEach((i) => {
         const [filteredPrice] = i.prices.filter((pr) => pr.currency.label === state.cartCurrency);
@@ -62,5 +69,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { clearCart, increaseQty, decreaseQty, addItem, removeItem, calcTotal, toggleCartVisibility } =
+export const { clearCart, increaseQty, decreaseQty, addItem, removeItem, cartError, calcTotal, toggleCartVisibility } =
   cartSlice.actions;

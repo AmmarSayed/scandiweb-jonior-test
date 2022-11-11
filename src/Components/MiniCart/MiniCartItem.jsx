@@ -6,11 +6,11 @@ export class MiniCartItem extends Component {
   render() {
     const {
       cart_item_id,
+      selected_attributes,
       brand,
       name,
       prices,
       attributes,
-      selectedAttributes,
       gallery,
       qty,
       cartCurrency,
@@ -18,6 +18,7 @@ export class MiniCartItem extends Component {
       decreaseQty,
       removeItem,
     } = this.props;
+
     const [price] = prices.filter((price) => price.currency.label === cartCurrency);
 
     return (
@@ -34,14 +35,14 @@ export class MiniCartItem extends Component {
             </b>
           </p>
 
-          {attributes.length > 0 &&
+          {attributes.length &&
             attributes.map((attr) => {
               return (
                 <Attribute
                   key={attr.name}
                   cartItemId={cart_item_id || null}
                   attr={attr}
-                  selectedAttributes={selectedAttributes}
+                  selectedAttributes={selected_attributes}
                 />
               );
             })}
@@ -51,16 +52,17 @@ export class MiniCartItem extends Component {
           <span>{qty}</span>
           <button
             onClick={() => {
-              if (qty === 1) return removeItem(cart_item_id);
+              if (qty === 1) {
+                removeItem(cart_item_id);
+                return;
+              }
               decreaseQty(cart_item_id);
             }}
           >
             -
           </button>
         </div>
-        <div className="cart-item__image">
-          <img src={gallery[0]} alt="product" className="img" />
-        </div>
+        <div className="cart-item__image">{gallery && <img src={gallery[0]} alt="product" className="img" />}</div>
       </div>
     );
   }

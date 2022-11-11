@@ -1,93 +1,77 @@
 import React, { Component } from "react";
 
-import Attribute from "../Components/MiniCart/Attribute";
 import { getSingleProduct } from "../features/singleProduct/singleProductsSlice";
 import { connect } from "react-redux";
-
+import AttributeSingleProduct from "../Components/MiniCart/AttributeSingleProduct";
+import { selectAttribute } from "../features/singleProduct/singleProductsSlice";
+import { addItem, cartError } from "../features/cart/cartSlice";
 export class ProductDescriptionPage extends Component {
-  state = {
-    loading: true,
-    product: {},
-    currencyLabel: "USD",
-  };
-
   componentDidMount = function () {
     const { searchParams } = new URL(window.location.href);
     const pId = searchParams.get("id");
     this.props.getSingleProduct(pId);
   };
 
-  /*
-
-  componentDidUpdate = function (_, prevState) {
-    if (prevState.product?.id !== this.state.product.id) {
-      this.setState({ loading: false });
-    }
-    console.log(this.state.product);
-  };
-*/
   render() {
-    /*
-
-
-    const { modifyAttribute } = this.props.dataContext;
-    const price = this.state.loading
-      ? { amount: 0, currency: { label: "USD", symbol: "$" } }
-      : this.state.product.prices.find((p) => p.currency.label === this.state.currencyLabel);
-
-      */
+    const { selectAttribute, addItem, cartError } = this.props;
+    const { single_product_loading, single_product_item, selected_attributes } = this.props.store.singleProduct;
+    const { id, prices, gallery, name, brand, attributes, description } = single_product_item;
+    const { active_currency } = this.props.store.products;
+    const price = single_product_loading ? null : prices.find((p) => p.currency.label === active_currency);
+    const { cart_error } = this.props.store.cart;
     return (
       <section className="section container product-page">
-        {/* 
-        
-  
-        {this.state.loading && <div className="loading"></div>}
+        {single_product_loading && <div className="loading"></div>}
 
-        {!this.state.loading && (
+        {!single_product_loading && (
           <div>
             <div className="product-tiles"></div>
             <div className="product-info">
               <div className="product-image">
-                <img src={this.state.product.gallery[0]} alt={this.state.product.name} />
+                <img src={gallery[0]} alt={name} />
               </div>
               <div className="product-item-details">
                 <div className="cart-item__info">
-                  <h5 className="brand">{this.state.product.brand}</h5>
-                  <h5>{this.state.product.name}</h5>
+                  <h5 className="brand">{brand}</h5>
+                  <h5>{name}</h5>
                   <p>
                     <b>
                       {price?.currency?.symbol}
                       {price?.amount}
                     </b>
                   </p>
-
-                  {this.state.product.attributes.length > 0 &&
-                    this.state.product.attributes
-                      .sort((a, b) => {
-                        return a.name - b.name;
-                      })
-                      .map((attr) => {
-                        return (
-                          <Attribute
-                            key={attr.name}
-                            selectedAttributes={null}
-                            modifyAttribute={modifyAttribute}
-                            name={attr.name}
-                            type={attr.type}
-                            attrItems={attr.items}
-                          />
-                        );
-                      })}
+                  {attributes.map((attr) => {
+                    return (
+                      <AttributeSingleProduct
+                        selectedAttributes={selected_attributes}
+                        key={attr.name}
+                        attr={attr}
+                        select={selectAttribute}
+                      />
+                    );
+                  })}
                 </div>
               </div>
-              <button className="btn btn-primary btn-block">Add to cart</button>
+              <button
+                className="btn btn-primary btn-block"
+                onClick={() => {
+                  if (Object.keys(selected_attributes).length !== attributes.length) {
+                    cartError("please choose an attribute!");
+                    return;
+                  }
 
-              <p className="product discription"></p>
+                  addItem({ id, attributes, selected_attributes, prices, gallery });
+                  cartError(null);
+                }}
+              >
+                Add to cart
+              </button>
+              {cart_error && <p className="alert-danger">{cart_error}</p>}
+
+              <div className="product discription" dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </div>
         )}
-
-              */}
       </section>
     );
   }
@@ -97,6 +81,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { getSingleProduct };
+const mapActionsToProps = { getSingleProduct, selectAttribute, addItem, cartError };
 
 export default connect(mapStateToProps, mapActionsToProps)(ProductDescriptionPage);
