@@ -1,26 +1,22 @@
 import React, { Component } from "react";
+import { isSelected } from "../../utils/utils";
 
 export class Attribute extends Component {
   render() {
-    const { selectedAttributes, isSelected = null, modifyAttribute, cartItemId, name, type, attrItems } = this.props;
+    const { selectedAttributes, attr } = this.props;
     return (
-      <div key={name} className="cart-item__info__attribute">
-        <p className="attribute">{name}:</p>
+      <div key={attr.name} className="cart-item__info__attribute">
+        <p className="attribute">{attr.name}:</p>
         <ul>
-          {attrItems.map((item) => {
-            const listStyle = type === "swatch" ? "color" : "";
-            const content = type === "swatch" ? "" : item.value;
-            const bgColor = type === "swatch" ? item.value : "";
-            const attrObject = { name, type, items: item };
-            const isSelectedAttribute = !isSelected ? false : isSelected(attrObject, selectedAttributes);
+          {attr.items.map((attrItem) => {
+            const listStyle = attr.type === "swatch" ? "color" : "";
+            const content = attr.type === "swatch" ? "" : attrItem.value;
+            const bgColor = attr.type === "swatch" ? attrItem.value : "";
+            const isSelectedAttribute = selectedAttributes[attr.name] === attrItem.value;
+
             const classes = `${listStyle} ${isSelectedAttribute ? "active" : null}`;
             return (
-              <li
-                key={item.value}
-                className={classes}
-                style={{ backgroundColor: bgColor }}
-                onClick={() => modifyAttribute(cartItemId, attrObject)}
-              >
+              <li key={attrItem.value} className={classes} style={{ backgroundColor: bgColor }}>
                 {content}
               </li>
             );

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import withDataContext from "../Context/DataContextProvider";
-import { getProduct } from "../utils/utils";
 import Attribute from "../Components/MiniCart/Attribute";
+import { getSingleProduct } from "../features/singleProduct/singleProductsSlice";
+import { connect } from "react-redux";
 
 export class ProductDescriptionPage extends Component {
   state = {
@@ -12,18 +12,12 @@ export class ProductDescriptionPage extends Component {
   };
 
   componentDidMount = function () {
-    (async () => {
-      const { searchParams } = new URL(window.location.href);
-      const pId = searchParams.get("id");
-      const currencyLabel = searchParams.get("cur");
-      try {
-        const data = await getProduct(pId);
-        if (data) this.setState({ product: { ...data.product }, currencyLabel: currencyLabel });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    const { searchParams } = new URL(window.location.href);
+    const pId = searchParams.get("id");
+    this.props.getSingleProduct(pId);
   };
+
+  /*
 
   componentDidUpdate = function (_, prevState) {
     if (prevState.product?.id !== this.state.product.id) {
@@ -31,15 +25,22 @@ export class ProductDescriptionPage extends Component {
     }
     console.log(this.state.product);
   };
-
+*/
   render() {
+    /*
+
+
     const { modifyAttribute } = this.props.dataContext;
     const price = this.state.loading
       ? { amount: 0, currency: { label: "USD", symbol: "$" } }
       : this.state.product.prices.find((p) => p.currency.label === this.state.currencyLabel);
 
+      */
     return (
       <section className="section container product-page">
+        {/* 
+        
+  
         {this.state.loading && <div className="loading"></div>}
 
         {!this.state.loading && (
@@ -47,7 +48,7 @@ export class ProductDescriptionPage extends Component {
             <div className="product-tiles"></div>
             <div className="product-info">
               <div className="product-image">
-                {/* <img src={this.state.product.gallery[0]} alt={this.state.product.name} /> */}
+                <img src={this.state.product.gallery[0]} alt={this.state.product.name} />
               </div>
               <div className="product-item-details">
                 <div className="cart-item__info">
@@ -85,9 +86,17 @@ export class ProductDescriptionPage extends Component {
             </div>
           </div>
         )}
+
+              */}
       </section>
     );
   }
 }
 
-export default withDataContext(ProductDescriptionPage);
+const mapStateToProps = (state) => ({
+  store: state,
+});
+
+const mapActionsToProps = { getSingleProduct };
+
+export default connect(mapStateToProps, mapActionsToProps)(ProductDescriptionPage);

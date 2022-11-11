@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../features/cart/cartSlice";
+import MiniCartItem from "./MiniCartItem";
 
 export class MiniCartOverlay extends Component {
   render() {
@@ -17,19 +18,14 @@ export class MiniCartOverlay extends Component {
             <span>{len > 1 ? `${len} items` : `${len} item`}</span>
           </h5>
           <div className="items">
-            {/* 
-            
-            
             {cartItems.map((item) => {
-              return <MiniCartItem key={item.id} {...item} />;
+              return <MiniCartItem key={item.id} {...item} cartCurrency={cartCurrency} cartTotalCost={cartTotalCost} />;
             })}
-            
-            */}
           </div>
           <div className="cart-overlay__total-price">
             <p>total</p>
             <p>
-              {cartCurrency} {cartTotalCost}
+              {cartCurrency} {cartTotalCost.toFixed(2)}
             </p>
           </div>
           <div className="cart-overlay__actions">

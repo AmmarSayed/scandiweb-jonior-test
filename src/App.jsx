@@ -7,23 +7,23 @@ import ProductDescriptionPage from "./pages/ProductDescriptionPage";
 import CartPage from "./pages/CartPage";
 import { calcTotal } from "./features/cart/cartSlice";
 import { getProducts } from "./features/products/productsSlice";
-import { getSingleProduct } from "./features/singleProduct/singleProductsSlice";
 
 import { connect } from "react-redux";
 export class App extends Component {
   componentDidMount() {
     this.props.calcTotal();
     this.props.getProducts();
-    this.props.getSingleProduct("huarache-x-stussy-le");
   }
 
   componentDidUpdate(prevProps) {
     const { cartItems } = this.props.store.cart;
     const prevCartItems = prevProps.store.cart.cartItems;
 
-    if (cartItems.length !== prevCartItems.length) {
+    if (cartItems !== prevCartItems) {
       this.props.calcTotal();
     }
+
+    if (cartItems) localStorage.setItem("cart", JSON.stringify(cartItems));
   }
 
   render() {
@@ -44,6 +44,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { calcTotal, getProducts, getSingleProduct };
+const mapActionsToProps = { calcTotal, getProducts };
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

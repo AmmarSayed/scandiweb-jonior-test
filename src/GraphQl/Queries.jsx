@@ -28,8 +28,14 @@ export const GET_PRODUCTS = (c) => {
           description
           brand
           inStock
-
-          prices {
+          attributes {
+            name
+            type
+            items {
+              value
+            }
+          }
+            prices {
             amount
             currency {
               label

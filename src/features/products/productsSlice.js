@@ -3,12 +3,13 @@ import * as graphQl from "../../GraphQl/Queries";
 import axios from "axios";
 
 export const getProducts = createAsyncThunk("products/getProducts", async (_, thunkAPI) => {
+  const { active_category } = thunkAPI.getState().products;
   try {
     const { data } = await axios.post(
       graphQl.URL,
 
       {
-        query: graphQl.GET_PRODUCTS("all"),
+        query: graphQl.GET_PRODUCTS(active_category),
       }
     );
     return data.data.category.products;
@@ -21,13 +22,24 @@ const initialState = {
   products_items: [],
   products_loading: false,
   products_error: false,
-
   featured_products: [],
+
+  active_category: "all",
+
+  active_currency: "USD",
 };
 
 const productSlice = createSlice({
   name: "products",
   initialState,
+  reducers: {
+    setCategory: (state, action) => {
+      state.active_category = action.payload;
+    },
+    setCurrency: (state, action) => {
+      state.active_currency = action.payload;
+    },
+  },
   extraReducers: {
     [getProducts.pending]: (state) => {
       state.products_loading = true;
@@ -47,4 +59,4 @@ const productSlice = createSlice({
 
 export default productSlice.reducer;
 
-export const {} = productSlice.actions;
+export const { setCategory, setCurrency } = productSlice.actions;
