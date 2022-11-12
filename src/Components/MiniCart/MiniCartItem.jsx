@@ -51,32 +51,34 @@ export class MiniCartItem extends Component {
               );
             })}
         </div>
-        <div className={styles.cart_item__controls}>
-          <button onClick={() => increaseQty(cart_item_id)}>+</button>
-          <span>{qty}</span>
-          <button
-            onClick={() => {
-              if (qty === 1) {
-                removeItem(cart_item_id);
-                return;
-              }
-              decreaseQty(cart_item_id);
-            }}
-          >
-            -
-          </button>
-        </div>
-        {!onCartPage && (
-          <div className={styles.cart_item__image}>
-            {gallery && <img src={gallery[0]} alt="product" className="img" />}
+        <div className={styles.item_display}>
+          <div className={styles.cart_item__controls}>
+            <button onClick={() => increaseQty(cart_item_id)}>+</button>
+            <span>{qty}</span>
+            <button
+              onClick={() => {
+                if (qty === 1) {
+                  removeItem(cart_item_id);
+                  return;
+                }
+                decreaseQty(cart_item_id);
+              }}
+            >
+              -
+            </button>
           </div>
-        )}
+          {!onCartPage && (
+            <div className={styles.cart_item__image}>
+              {gallery && <img src={gallery[0]} alt="product" className="img" />}
+            </div>
+          )}
 
-        {onCartPage && (
-          <div className={styles.slider_container}>
-            <CartImageSlider images={gallery} />
-          </div>
-        )}
+          {onCartPage && (
+            <div className={styles.slider_container}>
+              <CartImageSlider images={gallery} />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
