@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "../Components/Products/Card";
-
+import * as styles from "./ProductsLandingPage.module.css";
 import { connect } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
 export class ProductsLandingPage extends Component {
@@ -19,7 +19,7 @@ export class ProductsLandingPage extends Component {
           {products_loading && <div className="loading"></div>}
 
           {!products_loading && (
-            <div className="products">
+            <div className={styles.products}>
               {products_items.map((product) => {
                 return (
                   <Card

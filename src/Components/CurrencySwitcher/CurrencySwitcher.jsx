@@ -2,24 +2,24 @@ import React, { Component } from "react";
 import { toggleCurrenySwitcher } from "../../features/currencies/currenciesSlice";
 import { connect } from "react-redux";
 import { setCartCurrency } from "../../features/cart/cartSlice";
+import * as styles from "./CurrencySwitcher.module.css";
 
 export class CurrencySwitcher extends Component {
   render() {
     const { setCartCurrency, toggleCurrenySwitcher } = this.props;
     const { currencies } = this.props.store;
-    const { isCurrenySwitchOpen } = this.props.store.products;
     const { currencies_items } = currencies;
 
     return (
       <div>
         <div
-          className="cart-overlay "
+          className={styles.cart_overlay}
           onClick={() => {
             toggleCurrenySwitcher(false);
           }}
         ></div>
 
-        <div className="currency-list">
+        <div className={styles.currency_list}>
           <ul>
             {currencies_items.map((cur) => {
               const { label, symbol } = cur;

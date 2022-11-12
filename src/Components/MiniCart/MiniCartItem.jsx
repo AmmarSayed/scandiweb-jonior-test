@@ -3,6 +3,8 @@ import Attribute from "./Attribute";
 import { connect } from "react-redux";
 import { increaseQty, decreaseQty, removeItem } from "../../features/cart/cartSlice.js";
 import CartImageSlider from "../ImageSlider/CartImageSlider";
+import * as styles from "./MiniCartItem.module.css";
+
 export class MiniCartItem extends Component {
   render() {
     const {
@@ -24,9 +26,9 @@ export class MiniCartItem extends Component {
     const [price] = prices.filter((price) => price.currency.label === cartCurrency);
 
     return (
-      <div className={`cart-item`}>
-        <div className="cart-item__info">
-          <p className="brand">{brand}</p>
+      <div className={styles.cart_item}>
+        <div className={styles.cart_item__info}>
+          <p className={styles.brand}>{brand}</p>
           <p>
             <b>{name}</b>
           </p>
@@ -49,7 +51,7 @@ export class MiniCartItem extends Component {
               );
             })}
         </div>
-        <div className="cart-item__controls">
+        <div className={styles.cart_item__controls}>
           <button onClick={() => increaseQty(cart_item_id)}>+</button>
           <span>{qty}</span>
           <button
@@ -65,10 +67,16 @@ export class MiniCartItem extends Component {
           </button>
         </div>
         {!onCartPage && (
-          <div className="cart-item__image">{gallery && <img src={gallery[0]} alt="product" className="img" />}</div>
+          <div className={styles.cart_item__image}>
+            {gallery && <img src={gallery[0]} alt="product" className="img" />}
+          </div>
         )}
 
-        {onCartPage && <CartImageSlider images={gallery} />}
+        {onCartPage && (
+          <div className={styles.slider_container}>
+            <CartImageSlider images={gallery} />
+          </div>
+        )}
       </div>
     );
   }

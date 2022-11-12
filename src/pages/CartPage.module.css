@@ -1,0 +1,19 @@
+.cart_summary {
+  padding: 1rem;
+  margin-bottom: 3rem;
+}
+.cart_summary .summary_info {
+  font-size: 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cart_summary .summary_info span {
+  font-weight: bold;
+}
+
+.btn_cart_order {
+  width: 280px;
+  font-size: var(--smallText);
+  border: none;
+}

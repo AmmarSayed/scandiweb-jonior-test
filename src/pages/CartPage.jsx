@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MiniCartItem from "../Components/MiniCart/MiniCartItem";
 import { connect } from "react-redux";
-
+import * as styles from "./CartPage.module.css";
 export class CartPage extends Component {
   render() {
     const { cart } = this.props.store;
@@ -10,7 +10,7 @@ export class CartPage extends Component {
     return (
       <section className="section container">
         <h1>Cart</h1>
-        <main className="cart-page-main">
+        <main>
           {cart_items.map((item) => {
             return (
               <MiniCartItem
@@ -25,24 +25,24 @@ export class CartPage extends Component {
         </main>
 
         <hr />
-        <div className="cart-summary">
-          <div className="summary-info">
+        <div className={styles.cart_summary}>
+          <div className={styles.summary_info}>
             <p>Tax 21%:</p>
             <span>
               {cartCurrency} {cartTotalCost.toFixed(2)}
             </span>
           </div>
-          <div className="summary-info">
+          <div className={styles.summary_info}>
             <p>Quantity:</p>
             <span> {cartItemsCount} </span>
           </div>
-          <div className="summary-info">
+          <div className={styles.summary_info}>
             <p>Total:</p>
             <span>
               {cartCurrency} {cartTotalCost.toFixed(2)}
             </span>
           </div>
-          <button className="btn-cart-order btn btn-primary">Order</button>
+          <button className={`${styles.btn_cart_order} btn btn-primary`}>Order</button>
         </div>
       </section>
     );

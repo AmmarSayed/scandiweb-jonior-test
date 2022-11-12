@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import logo from "../../icons/logo.svg";
+import * as styles from "./Navbar.module.css";
 
 import { ShoppingCartIcon } from "../../icons/icons";
 
@@ -13,7 +14,7 @@ import { toggleCurrenySwitcher } from "../../features/currencies/currenciesSlice
 import { setCategory } from "../../features/products/productsSlice";
 export class Navbar extends Component {
   closeNavBarActionButtons = (e) => {
-    const nav_action_btn = e.target.closest(".nav__action") || null;
+    const nav_action_btn = e.target.closest("[data-action]") || null;
     if (nav_action_btn) return;
     this.props.toggleCurrenySwitcher(false);
     this.props.toggleCartVisibility(false);
@@ -30,17 +31,18 @@ export class Navbar extends Component {
     const activeCurrency = currencies_items.find((c) => c.label === cartCurrency);
 
     return (
-      <header className="header">
-        {isCartOpen && <MiniCartOverlay />}
+      <header className={styles.header}>
+        <nav className={styles.nav}>
+          {isCartOpen && <MiniCartOverlay />}
 
-        {isCurrenySwitchOpen && <CurrencySwitcher />}
+          {isCurrenySwitchOpen && <CurrencySwitcher />}
 
-        <nav onClick={this.closeNavBarActionButtons}>
-          <div className="container nav__container">
-            <ul className="nav__links">
+          <div onClick={this.closeNavBarActionButtons} className={`${styles.container} ${styles.nav__container}`}>
+            <ul className={styles.nav__links}>
               {!categories_loading &&
                 categories_items.map((c) => {
-                  const navClasses = c === active_category ? "nav__link  nav__link-active" : "nav__link";
+                  const navClasses =
+                    c === active_category ? `${styles.nav__link} ${styles.nav__link_active}` : styles.nav__link;
                   return (
                     <Link key={c} to="/">
                       <li className={navClasses} onClick={() => setCategory(c)}>
@@ -51,24 +53,26 @@ export class Navbar extends Component {
                 })}
             </ul>
 
-            <div className="nav__logo">
+            <div className={styles.nav__logo}>
               <img src={logo} alt="logo" />
             </div>
 
-            <div className="nav__actions">
+            <div className={styles.nav__actions}>
               <div
-                className="currBtn nav__action"
+                data-action="action-btn"
+                className={`${styles.currBtn} ${styles.nav__action}`}
                 onClick={() => {
                   toggleCurrenySwitcher(!isCurrenySwitchOpen);
                   toggleCartVisibility(false);
                 }}
               >
                 {!currencies_loading ? activeCurrency?.symbol : "USD"}
-                {isCurrenySwitchOpen ? <p className="up">⌃</p> : <p>⌄</p>}
+                {isCurrenySwitchOpen ? <p className={styles.up}>⌃</p> : <p>⌄</p>}
               </div>
 
               <div
-                className="nav__action cartBtn"
+                data-action="action-btn"
+                className={`${styles.nav__action} ${styles.cartBtn}`}
                 onClick={() => {
                   toggleCartVisibility(!isCartOpen);
                   toggleCurrenySwitcher(false);

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../features/cart/cartSlice";
 import MiniCartItem from "./MiniCartItem";
+import * as styles from "./MiniCartOverlay.module.css";
 
 export class MiniCartOverlay extends Component {
   render() {
@@ -11,12 +12,12 @@ export class MiniCartOverlay extends Component {
 
     return (
       <div>
-        <div className="cart-verlay__container">
+        <div className={styles.cart_overlay__container}>
           <h5>
             <b>my bag, </b>
             <span>{cartItemsCount > 1 ? `${cartItemsCount} items` : `${cartItemsCount} item`}</span>
           </h5>
-          <div className="items">
+          <div className={styles.items}>
             {cart_items.map((item) => {
               return (
                 <MiniCartItem
@@ -28,23 +29,23 @@ export class MiniCartOverlay extends Component {
               );
             })}
           </div>
-          <div className="cart-overlay__total-price">
+          <div className={styles.cart_overlay__total_price}>
             <p>total</p>
             <p>
               {cartCurrency} {cartTotalCost.toFixed(2)}
             </p>
           </div>
-          <div className="cart-overlay__actions">
-            <button className=" btn btn-secondary" onClick={() => toggleCartVisibility(false)}>
+          <div className={styles.cart_overlay__actions}>
+            <button className="btn btn-secondary" onClick={() => toggleCartVisibility(false)}>
               <Link to="cart">View Bag</Link>
             </button>
-            <button className=" btn btn-primary" onClick={() => toggleCartVisibility(false)}>
+            <button className="btn btn-primary" onClick={() => toggleCartVisibility(false)}>
               checkout
             </button>
           </div>
         </div>
 
-        <div className="cart-overlay " onClick={() => toggleCartVisibility(false)}></div>
+        <div className={styles.cart_overlay} onClick={() => toggleCartVisibility(false)}></div>
       </div>
     );
   }
