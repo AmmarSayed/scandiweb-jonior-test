@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import logo from "./icons/logo.svg";
-import cartIcon from "./icons/Empty Cart.svg";
+import logo from "../../icons/logo.svg";
+
+import { ShoppingCartIcon } from "../../icons/icons";
 
 import MiniCartOverlay from "../MiniCart/MiniCartOverlay";
 import CurrencySwitcher from "../CurrencySwitcher/CurrencySwitcher";
@@ -9,7 +10,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleCartVisibility } from "../../features/cart/cartSlice";
 import { toggleCurrenySwitcher } from "../../features/currencies/currenciesSlice";
-
+import { setCategory } from "../../features/products/productsSlice";
 export class Navbar extends Component {
   closeNavBarActionButtons = (e) => {
     const nav_action_btn = e.target.closest(".nav__action") || null;
@@ -19,11 +20,14 @@ export class Navbar extends Component {
   };
 
   render() {
-    const { cart, currencies } = this.props.store;
+    const { cart, currencies, categories, products } = this.props.store;
     const { cartItemsCount, isCartOpen, cartCurrency } = cart;
     const { isCurrenySwitchOpen, currencies_loading, currencies_items } = currencies;
+    const { categories_items, categories_loading } = categories;
+    const { active_category } = products;
+    const { toggleCartVisibility, toggleCurrenySwitcher, setCategory } = this.props;
+
     const activeCurrency = currencies_items.find((c) => c.label === cartCurrency);
-    const { toggleCartVisibility, toggleCurrenySwitcher } = this.props;
 
     return (
       <header className="header">
@@ -33,7 +37,20 @@ export class Navbar extends Component {
 
         <nav onClick={this.closeNavBarActionButtons}>
           <div className="container nav__container">
-            <ul className="nav__links"></ul>
+            <ul className="nav__links">
+              {!categories_loading &&
+                categories_items.map((c) => {
+                  const navClasses = c === active_category ? "nav__link  nav__link-active" : "nav__link";
+                  return (
+                    <Link key={c} to="/">
+                      <li className={navClasses} onClick={() => setCategory(c)}>
+                        {c}
+                      </li>
+                    </Link>
+                  );
+                })}
+            </ul>
+
             <div className="nav__logo">
               <img src={logo} alt="logo" />
             </div>
@@ -57,8 +74,8 @@ export class Navbar extends Component {
                   toggleCurrenySwitcher(false);
                 }}
               >
-                <img src={cartIcon} alt="cart" />
-                <span>{cartItemsCount}</span>;
+                <ShoppingCartIcon />
+                <span>{cartItemsCount}</span>
               </div>
             </div>
           </div>
@@ -72,6 +89,6 @@ const mapStateToProps = (state) => ({
   store: state,
 });
 
-const mapActionsToProps = { toggleCartVisibility, toggleCurrenySwitcher };
+const mapActionsToProps = { toggleCartVisibility, toggleCurrenySwitcher, setCategory };
 
 export default connect(mapStateToProps, mapActionsToProps)(Navbar);

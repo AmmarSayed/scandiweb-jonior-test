@@ -55,6 +55,7 @@ export const GET_PRODUCTS_BY_ID = (id) => {
         id
         name
         brand
+        inStock
         description
         attributes {
           name

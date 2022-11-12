@@ -1,0 +1,30 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media screen and (min-width: 700px) {
+  .main {
+    height: 600px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 3rem;
+  }
+
+  .productInfo {
+    height: 600px;
+    display: grid;
+    align-items: flex-start;
+  }
+}
+
+.brand {
+  font-weight: bold;
+}

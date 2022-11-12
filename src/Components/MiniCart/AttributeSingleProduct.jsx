@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { isSelected } from "../../utils/utils";
 
 export class AttributeSingleProduct extends Component {
   render() {

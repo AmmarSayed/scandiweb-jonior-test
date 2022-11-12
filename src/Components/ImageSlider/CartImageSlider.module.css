@@ -1,0 +1,34 @@
+.slider {
+  position: relative;
+  height: 300px;
+  width: 200px;
+}
+
+.slider_actions {
+  position: absolute;
+  display: flex;
+  gap: 0.5rem;
+  bottom: 0.75rem;
+  right: 0.75rem;
+}
+
+.img_container {
+  overflow: hidden;
+  height: 100%;
+}
+
+.img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.slider_btn {
+  border: none;
+  padding: 0.1rem;
+  background: black;
+  color: white;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  display: inline-block;
+}

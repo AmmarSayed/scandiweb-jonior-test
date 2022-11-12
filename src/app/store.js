@@ -10,7 +10,7 @@ export const store = configureStore({
     cart: cartReducer,
     products: productReducer,
     singleProduct: singleProductReducer,
-    categroies: categoriesReducer,
+    categories: categoriesReducer,
     currencies: currenciesReducer,
   },
 });

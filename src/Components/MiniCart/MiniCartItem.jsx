@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Attribute from "./Attribute";
 import { connect } from "react-redux";
 import { increaseQty, decreaseQty, removeItem } from "../../features/cart/cartSlice.js";
+import CartImageSlider from "../ImageSlider/CartImageSlider";
 export class MiniCartItem extends Component {
   render() {
     const {
@@ -17,6 +18,7 @@ export class MiniCartItem extends Component {
       increaseQty,
       decreaseQty,
       removeItem,
+      onCartPage,
     } = this.props;
 
     const [price] = prices.filter((price) => price.currency.label === cartCurrency);
@@ -62,7 +64,11 @@ export class MiniCartItem extends Component {
             -
           </button>
         </div>
-        <div className="cart-item__image">{gallery && <img src={gallery[0]} alt="product" className="img" />}</div>
+        {!onCartPage && (
+          <div className="cart-item__image">{gallery && <img src={gallery[0]} alt="product" className="img" />}</div>
+        )}
+
+        {onCartPage && <CartImageSlider images={gallery} />}
       </div>
     );
   }

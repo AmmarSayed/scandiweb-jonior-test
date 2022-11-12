@@ -1,25 +1,26 @@
 import React, { Component } from "react";
 import MiniCartItem from "../Components/MiniCart/MiniCartItem";
-import withDataContext from "../Context/DataContextProvider";
+import { connect } from "react-redux";
 
 export class CartPage extends Component {
   render() {
-    const { cartItems, currency } = this.props.dataContext;
-
-    const cartItemsCount = cartItems.reduce((acc, curr) => (acc += curr.qty), 0);
-
-    const total = cartItems.reduce((acc, cur) => {
-      const price = cur.prices.filter((p) => p.currency.label === currency.label)[0].amount;
-      const productTotal = cur.qty * price;
-      return Number((acc + productTotal).toFixed(2));
-    }, 0);
+    const { cart } = this.props.store;
+    const { cart_items, cartCurrency, cartTotalCost, cartItemsCount } = cart;
 
     return (
       <section className="section container">
         <h1>Cart</h1>
         <main className="cart-page-main">
-          {cartItems.map((item) => {
-            return <MiniCartItem key={item.cartItemId} {...item} displayOnCartPage={true} />;
+          {cart_items.map((item) => {
+            return (
+              <MiniCartItem
+                key={item.cart_item_id}
+                onCartPage={true}
+                {...item}
+                cartCurrency={cartCurrency}
+                cartTotalCost={cartTotalCost}
+              />
+            );
           })}
         </main>
 
@@ -28,19 +29,17 @@ export class CartPage extends Component {
           <div className="summary-info">
             <p>Tax 21%:</p>
             <span>
-              {currency.symbol}
-              {Number((total * 0.21).toFixed(2))}
+              {cartCurrency} {cartTotalCost.toFixed(2)}
             </span>
           </div>
           <div className="summary-info">
             <p>Quantity:</p>
-            <span> {cartItemsCount}</span>
+            <span> {cartItemsCount} </span>
           </div>
           <div className="summary-info">
             <p>Total:</p>
             <span>
-              {currency.symbol}
-              {total}
+              {cartCurrency} {cartTotalCost.toFixed(2)}
             </span>
           </div>
           <button className="btn-cart-order btn btn-primary">Order</button>
@@ -50,4 +49,10 @@ export class CartPage extends Component {
   }
 }
 
-export default withDataContext(CartPage);
+const mapStateToProps = (state) => ({
+  store: state,
+});
+
+const mapActionsToProps = {};
+
+export default connect(mapStateToProps, mapActionsToProps)(CartPage);

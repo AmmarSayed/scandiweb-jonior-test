@@ -18,7 +18,7 @@ export const getCategories = createAsyncThunk("categories/getCategories", async 
 });
 
 const initialState = {
-  categoris_items: [],
+  categories_items: [],
 };
 
 const categoriesSlice = createSlice({
@@ -32,7 +32,7 @@ const categoriesSlice = createSlice({
 
     [getCategories.fulfilled]: (state, action) => {
       state.categories_loading = false;
-      state.categoris_items = action.payload.map((c) => c.name);
+      state.categories_items = action.payload.map((c) => c.name);
     },
 
     [getCategories.rejected]: (state, payload) => {
