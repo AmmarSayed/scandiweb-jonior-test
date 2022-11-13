@@ -45,8 +45,8 @@ export class App extends Component {
         <Navbar />
         <Routes>
           <Route path="/" element={<ProductsLandingPage />} />
-          <Route path="cart" element={<CartPage />} />
-          <Route path="product" element={<ProductDescriptionPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/product" element={<ProductDescriptionPage />} />
         </Routes>
       </>
     );

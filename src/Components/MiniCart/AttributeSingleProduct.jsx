@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-
+import * as styles from "./AttributeSingleProduct.module.css";
 export class AttributeSingleProduct extends Component {
   render() {
     const { selectedAttributes, attr, select } = this.props;
     return (
-      <div key={attr.name} className="cart-item__info__attribute">
-        <p className="attribute">{attr.name}:</p>
+      <div key={attr.name} className={styles.cart_item__info__attribute}>
+        <p className={styles.attribute}>{attr.name}:</p>
         <ul>
           {attr.items.map((attrItem) => {
             const listStyle = attr.type === "swatch" ? "color" : "";
@@ -14,7 +14,7 @@ export class AttributeSingleProduct extends Component {
 
             const isSelectedAttribute = selectedAttributes ? selectedAttributes[attr.name] === attrItem.value : null;
 
-            const classes = `${listStyle} ${isSelectedAttribute ? "active" : null}`;
+            const classes = `${listStyle} ${isSelectedAttribute ? styles.active : null}`;
             return (
               <li
                 key={attrItem.value}
