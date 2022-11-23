@@ -20,6 +20,7 @@ export class ProductDescriptionPage extends Component {
     const { cartCurrency } = this.props.store.cart;
     const price = single_product_loading ? null : prices.find((p) => p.currency.label === cartCurrency);
     const { cart_error } = this.props.store.cart;
+    const regex = /<[^>]*>/g;
 
     return (
       <section className="section container ">
@@ -72,7 +73,9 @@ export class ProductDescriptionPage extends Component {
               </button>
               {cart_error && <p className="alert-danger">{cart_error}</p>}
 
-              <div className="product discription" dangerouslySetInnerHTML={{ __html: description }} />
+              <div className="product discription">
+                <p>{description.replaceAll(regex, "")}</p>
+              </div>
             </section>
           </div>
         )}
